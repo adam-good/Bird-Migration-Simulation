@@ -8,7 +8,7 @@ namespace BirdMigrationSimulation.Models
 {
     class Simulation
     {
-        public Random Rng = new Random();
+        public Random Rng { get; private set; }
 
         public Simulation(int rng_seed = 0)
         {
