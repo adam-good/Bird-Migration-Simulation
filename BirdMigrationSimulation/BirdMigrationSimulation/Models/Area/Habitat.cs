@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BirdMigrationSimulation.Models.Territory
+namespace BirdMigrationSimulation.Models.Area
 {
     /// <summary>
     /// This class represents a section of land that can support a single bird nest

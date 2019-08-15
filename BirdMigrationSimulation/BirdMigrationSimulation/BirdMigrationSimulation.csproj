@@ -45,8 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Simulation.cs" />
-    <Compile Include="Models\Territory\Habitat.cs" />
-    <Compile Include="Models\Territory\Territory.cs" />
+    <Compile Include="Models\Area\Habitat.cs" />
+    <Compile Include="Models\Area\Territory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

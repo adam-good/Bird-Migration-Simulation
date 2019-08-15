@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BirdMigrationSimulation.Models.Territory
+namespace BirdMigrationSimulation.Models.Area
 {
     /// <summary>
     /// This represents the land that birds can move around
