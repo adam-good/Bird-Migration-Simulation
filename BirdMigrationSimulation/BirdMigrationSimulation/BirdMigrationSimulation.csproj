@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Inhabitants\Inhabitant.cs" />
     <Compile Include="Models\Simulation.cs" />
     <Compile Include="Models\Area\Habitat.cs" />
     <Compile Include="Models\Area\Territory.cs" />
@@ -53,5 +54,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
