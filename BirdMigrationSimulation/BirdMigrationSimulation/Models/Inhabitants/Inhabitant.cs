@@ -12,12 +12,30 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     /// </summary>
     interface Inhabitant
     {
+        /// <summary>
+        /// The population which this Inhabitant belongs to
+        /// </summary>
         Population Population { get; }
+
+        /// <summary>
+        /// The simulation that this Inhabitant belongs to
+        /// </summary>
         Simulation Simulation { get; }
+
+        /// <summary>
+        /// The habitat that this Inhabitant currently resides in
+        /// </summary>
         Habitat CurrentHabitat { get; }
 
-
+        /// <summary>
+        /// Handles the migration step of each iteration in the simulation.
+        /// </summary>
         void Migrate();
+
+        /// <summary>
+        /// Handles the death step of each iteration in the simulation.
+        /// It does not necissarily kill the inhabitant, but executes logic to determine if it should die.
+        /// </summary>
         void Die();
     }
 }

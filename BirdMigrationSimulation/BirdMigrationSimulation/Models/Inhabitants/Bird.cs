@@ -7,23 +7,32 @@ using BirdMigrationSimulation.Models.Area;
 
 namespace BirdMigrationSimulation.Models.Inhabitants
 {
+    /// <summary>
+    /// Contains the possible sexes of the birds
+    /// </summary>
     enum Sex
     {
         Male,
         Female
     }
+
+    /// <summary>
+    /// Contains the possible ages of the birds
+    /// </summary>
     enum Age
     {
         Adult,
         Juvenile
     }
 
+    /// <summary>
+    /// This class shall represent the birds in the simulation.
+    /// </summary>
     class Bird : Inhabitant
     {
         public Population Population { get; private set; }
         public Simulation Simulation => Population.Simulation;
         private Random Rng => Simulation.Rng;
-
         public Habitat CurrentHabitat { get; private set; }
         public Sex Sex { get; private set; }
         public Age Age { get; private set; }
