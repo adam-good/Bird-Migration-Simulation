@@ -15,7 +15,6 @@ namespace BirdMigrationSimulation.Models
     class Simulation
     {
         public Random Rng { get; private set; }
-
         public Territory Territory { get; private set; }
         public Population Population { get; private set; }
 
@@ -28,14 +27,16 @@ namespace BirdMigrationSimulation.Models
             if (rng_seed != 0)
                 Rng = new Random(rng_seed);
 
-            (int x, int y) = (64, 64); // This is temporary. These should come from a configuration file
-            Init(x, y);
+            // This is temporary. These should come from a configuration file
+            (int x, int y) = (64, 64);
+            int numBirds = 10;
+            Init(x, y, numBirds);
         }
 
-        public void Init(int width, int height)
+        public void Init(int width, int height, int numInitialBirds)
         {
             this.Territory = new Territory(this, width, height);
-            this.Population = new Population(this, 10);
+            this.Population = new Population(this, numInitialBirds);
         }
 
         public void Run() => throw new NotImplementedException();
