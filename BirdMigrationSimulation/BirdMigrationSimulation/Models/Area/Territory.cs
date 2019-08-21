@@ -104,5 +104,15 @@ namespace BirdMigrationSimulation.Models.Area
         /// <param name="configPath"></param>
         private void PopulateHabitatGrid(string configPath) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Returns the Habitat at the specified coordinates. Throws exception if coordinates are invalid.
+        /// </summary>
+        /// <param name="x">X coordinate of desired habitat</param>
+        /// <param name="y">Y coordinate of desired habitat</param>
+        /// <returns>Habitat at the specified coordinates</returns>
+        public Habitat GetHabitat(int x, int y)
+        {
+            return HabitatGrid.Where(h => h.Coordinates.x == x && h.Coordinates.y == y).First();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BirdMigrationSimulation.Models.Inhabitants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,8 @@ namespace BirdMigrationSimulation.Models.Area
         /// Coordinates to denote the location of the habitat
         /// </summary>
         public (int x, int y) Coordinates { get; private set; }
+
+        public Inhabitant CurrentInhabitant { get; set; }
 
         /// <summary>
         /// 

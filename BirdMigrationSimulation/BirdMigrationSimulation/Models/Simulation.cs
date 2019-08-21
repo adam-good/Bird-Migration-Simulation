@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BirdMigrationSimulation.Models.Area;
+using BirdMigrationSimulation.Models.Inhabitants;
 
 namespace BirdMigrationSimulation.Models
 {
@@ -15,7 +16,8 @@ namespace BirdMigrationSimulation.Models
     {
         public Random Rng { get; private set; }
 
-        private Territory Territory { get; set; }
+        public Territory Territory { get; private set; }
+        public Population Population { get; private set; }
 
         /// <summary>
         /// 
@@ -33,6 +35,7 @@ namespace BirdMigrationSimulation.Models
         public void Init(int width, int height)
         {
             this.Territory = new Territory(this, width, height);
+            this.Population = new Population(this, 10);
         }
 
         public void Run() => throw new NotImplementedException();
