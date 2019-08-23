@@ -36,6 +36,6 @@ namespace BirdMigrationSimulation.Models.Inhabitants
         /// Handles the death step of each iteration in the simulation.
         /// It does not necissarily kill the inhabitant, but executes logic to determine if it should die.
         /// </summary>
-        void Die();
+        void HandleDeath();
     }
 }

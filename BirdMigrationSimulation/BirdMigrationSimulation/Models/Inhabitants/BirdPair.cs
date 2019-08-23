@@ -24,7 +24,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             this.Pair = (maleBird, femaleBird);
         }
 
-        public void Die()
+        public void HandleDeath()
         {
             throw new NotImplementedException();
         }

@@ -46,7 +46,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             this.Age = age;
         }
 
-        public void Die()
+        public void HandleDeath()
         {
             throw new NotImplementedException();
         }
