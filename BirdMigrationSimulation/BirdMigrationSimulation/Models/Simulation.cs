@@ -21,16 +21,17 @@ namespace BirdMigrationSimulation.Models
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="gridDims">The dimensions to be used for the territory grid</param>
+        /// <param name="numInitialBirds">The number of birds to initially populate the simulation with</param>
         /// <param name="rng_seed">Optional seed for Random Number Generator. A value of 0 (the default value) will result in a random seed.</param>
-        public Simulation(int rng_seed = 0)
+        public Simulation((int x, int y) gridDims, int numInitialBirds, int rng_seed = 0)
         {
             if (rng_seed != 0)
                 Rng = new Random(rng_seed);
 
             // This is temporary. These should come from a configuration file
-            (int x, int y) = (64, 64);
-            int numBirds = 10;
-            Init(x, y, numBirds);
+            (int x, int y) = gridDims;
+            Init(x, y, numInitialBirds);
         }
 
         public void Init(int width, int height, int numInitialBirds)
@@ -39,7 +40,15 @@ namespace BirdMigrationSimulation.Models
             this.Population = new Population(this, numInitialBirds);
         }
 
-        public void Run() => throw new NotImplementedException();
+        public void Run(int timesteps)
+        {
+            for (int i = 0; i < timesteps; i++)
+            {
+                var bird = Population.Birds.First();
+                Console.WriteLine($"Running Iteration {i}; Bird Location: ({bird.CurrentHabitat.Coordinates})");
+                Population.MigrateBirds(Population.Birds);
+            }
+        }
 
         public void Stop() => throw new NotImplementedException();
     }

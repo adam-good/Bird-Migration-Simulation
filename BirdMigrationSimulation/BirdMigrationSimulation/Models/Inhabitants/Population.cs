@@ -23,6 +23,9 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         public List<Bird> NewBorns { get; set; } = new List<Bird>();
 
+        public long birdIDCounter = 0;
+
+        public List<Bird> Birds => Inhabitants.Where(i => i is Bird).Cast<Bird>().ToList();
         public List<BirdPair> Pairs => Inhabitants.Where(i => i is BirdPair).Cast<BirdPair>().ToList();
         public List<Bird> Males => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Male).ToList();
         public List<Bird> Females => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Female).ToList();
@@ -35,16 +38,44 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             PopulatePopulation(numBirds);
         }
 
+        private Bird AddBird(Habitat habitat, Sex sex, Age age)
+        {
+            //            Bird bird = new Bird(this, habitat, sex, age, birdIDCounter);
+            Bird bird = new Bird(this, sex, age, birdIDCounter);
+            birdIDCounter++;
+
+            habitat.InsertInhabitant(bird);
+            bird.CurrentHabitat = habitat;
+
+            Inhabitants.Add(bird);
+            return bird;
+        }
+
         private void PopulatePopulation(int numBirds)
         {
             for (int i = 0; i < numBirds; i++)
             {
                 Habitat habitat = this.Territory.GetHabitat(i, i);
-                Bird bird = new Bird(this, habitat, Sex.Male, Age.Adult);
-                this.Inhabitants.Add(bird);
+                AddBird(habitat, Sex.Male, Age.Adult);
             }
         }
 
+        public void MigrateBirds(List<Bird> birds)
+        {
+            // shuffle list of birds randomly to avoid any bias in the order of the list
+            birds = birds.OrderBy(c => Rng.Next()).ToList();
+
+            foreach (var bird in birds)
+                bird.Migrate();
+        }
+
+        public void MoveBird(Bird bird, Habitat newHabitat)
+        {
+            Habitat currentHabitat = bird.CurrentHabitat;
+            currentHabitat.RemoveInhabitant(bird);
+            newHabitat.InsertInhabitant(bird);
+            bird.CurrentHabitat = newHabitat;
+        }
         public void AddInhabitant(Inhabitant inhabitant) => throw new NotImplementedException();
 
         public void AddNewBorn(Bird newborn) => throw new NotImplementedException();
