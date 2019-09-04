@@ -58,6 +58,17 @@ namespace BirdMigrationSimulation.Models.Area
         }
 
         /// <summary>
+        /// Create a territory with the specified habitat list
+        /// </summary>
+        /// <param name="simulation">The simulation this territory will belong to</param>
+        /// <param name="habitatList">The list of habitats for this territory</param>
+        public Territory(Simulation simulation, List<Habitat> habitatList)
+        {
+            this.Simulation = simulation;
+            this.HabitatGrid = habitatList;
+        }
+
+        /// <summary>
         /// Populates the habitat grid by generating habitats.
         /// Grid shape is defined by maxX and maxY parameters
         /// </summary>
@@ -65,13 +76,15 @@ namespace BirdMigrationSimulation.Models.Area
         /// <param name="height">The height for the habitat grid</param>
         private void PopulateHabitatGrid(int width, int height)
         {
+            long counter = 0;
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
                     double hqi = Simulation.Rng.NextDouble();
-                    Habitat habitat = new Habitat(this, hqi, x, y);
+                    Habitat habitat = new Habitat(this, hqi, x, y, counter);
                     HabitatGrid.Add(habitat);
+                    counter++;
                 }
             }
         }
@@ -95,7 +108,6 @@ namespace BirdMigrationSimulation.Models.Area
             // Man it's interesting that C# can do this. Yay overloading!
             PopulateHabitatGrid(maxX, maxY);
         }
-
 
         /// <summary>
         /// Populates the habitat grid by generating habitats.

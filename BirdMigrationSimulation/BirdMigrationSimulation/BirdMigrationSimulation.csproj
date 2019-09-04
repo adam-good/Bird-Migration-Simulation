@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Data\DataManager.cs" />
     <Compile Include="Models\Inhabitants\Bird.cs" />
     <Compile Include="Models\Inhabitants\BirdPair.cs" />
     <Compile Include="Models\Inhabitants\Inhabitant.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Models\Area\Territory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\RandomState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

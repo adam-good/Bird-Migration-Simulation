@@ -25,7 +25,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
         /// <summary>
         /// The habitat that this Inhabitant currently resides in
         /// </summary>
-        Habitat CurrentHabitat { get; }
+        Habitat CurrentHabitat { get; set; }
 
         /// <summary>
         /// Handles the migration step of each iteration in the simulation.
