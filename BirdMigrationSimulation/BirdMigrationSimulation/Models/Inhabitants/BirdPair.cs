@@ -13,7 +13,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         public Simulation Simulation => Population.Simulation;
 
-        public Habitat CurrentHabitat { get; private set; }
+        public Habitat CurrentHabitat { get; set; }
 
         public (Bird MaleBird, Bird FemaleBird) Pair { get; private set; }
 

@@ -38,6 +38,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             PopulatePopulation(numBirds);
         }
 
+        public Population(Simulation simulation, List<Inhabitant> inhabitants)
+        {
+            this.Simulation = simulation;
+            this.Inhabitants = inhabitants;
+        }
+
         private Bird AddBird(Habitat habitat, Sex sex, Age age)
         {
             //            Bird bird = new Bird(this, habitat, sex, age, birdIDCounter);
