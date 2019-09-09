@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Data\DataManager.cs" />
     <Compile Include="Models\Inhabitants\Bird.cs" />
     <Compile Include="Models\Inhabitants\BirdPair.cs" />
     <Compile Include="Models\Inhabitants\Inhabitant.cs" />
