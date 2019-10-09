@@ -10,7 +10,7 @@ namespace BirdMigrationSimulation.Models.Area
     /// <summary>
     /// This class represents a section of land that can support a single bird nest
     /// </summary>
-    class Habitat
+    public class Habitat
     {
         /// <summary>
         /// The Simulation this habitat belongs to.

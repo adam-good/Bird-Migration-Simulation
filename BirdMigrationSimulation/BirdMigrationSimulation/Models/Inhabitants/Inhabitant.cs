@@ -10,7 +10,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     /// <summary>
     /// This interface will represent the birds of the simulation.
     /// </summary>
-    interface Inhabitant
+    public interface Inhabitant
     {
         /// <summary>
         /// The population which this Inhabitant belongs to

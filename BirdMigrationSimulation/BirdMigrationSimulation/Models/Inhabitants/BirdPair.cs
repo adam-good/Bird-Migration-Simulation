@@ -7,7 +7,7 @@ using BirdMigrationSimulation.Models.Area;
 
 namespace BirdMigrationSimulation.Models.Inhabitants
 {
-    class BirdPair : Inhabitant
+    public class BirdPair : Inhabitant
     {
         public Population Population { get; private set; }
 

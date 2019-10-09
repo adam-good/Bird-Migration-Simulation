@@ -11,7 +11,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     /// <summary>
     /// This class will act as a wrapper around the list of all inhabitants
     /// </summary>
-    class Population
+    public class Population
     {
         public Simulation Simulation { get; private set; }
 

@@ -14,7 +14,7 @@ namespace BirdMigrationSimulation.Models
     /// <summary>
     /// Represents the actual simulation that can be run.
     /// </summary>
-    class Simulation
+    public class Simulation
     {
         public Random Rng { get; set; }
         public Territory Territory { get; set; }
@@ -33,7 +33,7 @@ namespace BirdMigrationSimulation.Models
             if (rng_seed != 0)
                 Rng = new Random(rng_seed);
 
-            this.StateManager = new SimulationStateManager("C:/Users/ajgood/Desktop/Birdies/", this);
+            this.StateManager = new SimulationStateManager("C:\\Users\\Adam Good\\Desktop\\Birdies\\", this);
 
 
             // This is temporary. These should come from a configuration file
