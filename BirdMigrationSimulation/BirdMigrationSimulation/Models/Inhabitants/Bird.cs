@@ -10,7 +10,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     /// <summary>
     /// Contains the possible sexes of the birds
     /// </summary>
-    enum Sex
+    public enum Sex
     {
         Male,
         Female
@@ -19,7 +19,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     /// <summary>
     /// Contains the possible ages of the birds
     /// </summary>
-    enum Age
+    public enum Age
     {
         Adult,
         Juvenile
@@ -28,7 +28,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     /// <summary>
     /// This class shall represent the birds in the simulation.
     /// </summary>
-    class Bird : Inhabitant
+    public class Bird : Inhabitant
     {
         public Population Population { get; private set; }
         public Simulation Simulation => Population.Simulation;

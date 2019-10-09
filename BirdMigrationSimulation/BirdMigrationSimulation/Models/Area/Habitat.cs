@@ -10,7 +10,7 @@ namespace BirdMigrationSimulation.Models.Area
     /// <summary>
     /// This class represents a section of land that can support a single bird nest
     /// </summary>
-    class Habitat
+    public class Habitat
     {
         /// <summary>
         /// The Simulation this habitat belongs to.
@@ -21,6 +21,11 @@ namespace BirdMigrationSimulation.Models.Area
         /// The Territory which this habitat exists in
         /// </summary>
         private Territory Territory { get; set; }
+
+        /// <summary>
+        /// A unique id for this habitat
+        /// </summary>
+        public long Id { get; private set; }
 
         /// <summary>
         /// A value in the range [0,1] representing how well suited the habitat is to supporting an inhabitant.
@@ -48,11 +53,12 @@ namespace BirdMigrationSimulation.Models.Area
         /// <param name="hqi">The Habitat Quality Index for this habitat</param>
         /// <param name="x">This Habitat's X coordinate</param>
         /// <param name="y">This Habitat's Y coordinate</param>
-        public Habitat(Territory territory, double hqi, int x, int y)
+        public Habitat(Territory territory, double hqi, int x, int y, long id)
         {
             this.Territory = territory;
             this.HabitatQualityIndex = hqi;
             this.Coordinates = (x, y);
+            this.Id = id;
         }
 
         public List<Habitat> GetNeighbors()

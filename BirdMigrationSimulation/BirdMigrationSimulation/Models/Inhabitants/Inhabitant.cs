@@ -10,7 +10,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     /// <summary>
     /// This interface will represent the birds of the simulation.
     /// </summary>
-    interface Inhabitant
+    public interface Inhabitant
     {
         /// <summary>
         /// The population which this Inhabitant belongs to
@@ -25,7 +25,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
         /// <summary>
         /// The habitat that this Inhabitant currently resides in
         /// </summary>
-        Habitat CurrentHabitat { get; }
+        Habitat CurrentHabitat { get; set; }
 
         /// <summary>
         /// Handles the migration step of each iteration in the simulation.

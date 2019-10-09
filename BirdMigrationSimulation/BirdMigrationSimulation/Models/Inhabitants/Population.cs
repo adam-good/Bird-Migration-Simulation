@@ -11,7 +11,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     /// <summary>
     /// This class will act as a wrapper around the list of all inhabitants
     /// </summary>
-    class Population
+    public class Population
     {
         public Simulation Simulation { get; private set; }
 
@@ -36,6 +36,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants
         {
             this.Simulation = simulation;
             PopulatePopulation(numBirds);
+        }
+
+        public Population(Simulation simulation, List<Inhabitant> inhabitants)
+        {
+            this.Simulation = simulation;
+            this.Inhabitants = inhabitants;
         }
 
         private Bird AddBird(Habitat habitat, Sex sex, Age age)
