@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BirdMigrationSimulation.Models.Area;
+using BirdMigrationSimulation.Models.Inhabitants.Birds;
 
 namespace BirdMigrationSimulation.Models.Inhabitants
 {
@@ -47,7 +48,11 @@ namespace BirdMigrationSimulation.Models.Inhabitants
         private Bird AddBird(Habitat habitat, Sex sex, Age age)
         {
             //            Bird bird = new Bird(this, habitat, sex, age, birdIDCounter);
-            Bird bird = new Bird(this, sex, age, birdIDCounter);
+            //Bird bird = new Bird(this, sex, age, birdIDCounter);
+
+            BirdFactory birdFactory = new BirdFactory(this);
+
+            Bird bird = birdFactory.CreateBird(sex, age, birdIDCounter);
             birdIDCounter++;
 
             habitat.InsertInhabitant(bird);
@@ -62,7 +67,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             for (int i = 0; i < numBirds; i++)
             {
                 Habitat habitat = this.Territory.GetHabitat(i, i);
-                AddBird(habitat, Sex.Male, Age.Adult);
+                Sex sex = (Sex)(i % 2);
+                AddBird(habitat, sex, Age.Adult);
             }
         }
 

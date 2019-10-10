@@ -1,0 +1,56 @@
+﻿using BirdMigrationSimulation.Models.Area;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BirdMigrationSimulation.Models.Inhabitants.Birds
+{
+    internal class FemaleBird : Bird
+    {
+        public override Sex Sex => Sex.Female;
+        public int MigrationMoves { get; private set; } = 3;
+        public double MigrationSelectivity { get; private set; } = 0.5;
+
+        public FemaleBird(Population population, Age age, long id) : base(population, age, id) { }
+
+        public override void Migrate()
+        {
+            bool settle = false;
+            int moves = 0;
+            while (settle == false && moves < MigrationMoves)
+            {
+                List<Habitat> neighbors = CurrentHabitat.GetNeighbors();
+                List<Habitat> potentialMates = neighbors.Where(h => hasPotentialMate(h)).ToList();
+                if (potentialMates.Count > 0)
+                {
+                    int idx = Rng.Next(potentialMates.Count);
+                    Habitat nextHabitat = potentialMates[idx];
+
+                    double hqiThreshold = Math.Pow(CurrentHabitat.HabitatQualityIndex, MigrationSelectivity);
+                    if (Rng.NextDouble() < hqiThreshold)
+                    {
+                        settle = true;
+                        Population.MoveBird(this, nextHabitat); // Do pairing here
+                    }
+                }
+                else
+                {
+                    int idx = Rng.Next(neighbors.Count);
+                    Habitat nextHabitat = neighbors[idx];
+                    Population.MoveBird(this, nextHabitat);
+                }
+                moves += 1;
+            }
+        }
+
+        private bool hasPotentialMate(Habitat habitat)
+        {
+            if (habitat?.MainInhabitant is MaleBird)
+                return true;
+            else
+                return false;
+        }
+    }
+}

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using BirdMigrationSimulation.Models.Area;
 using BirdMigrationSimulation.Models.Inhabitants;
+using BirdMigrationSimulation.Models.Inhabitants.Birds;
 using BirdMigrationSimulation.Utilities;
 
 namespace BirdMigrationSimulation.Models
@@ -184,6 +185,7 @@ namespace BirdMigrationSimulation.Models
             private void LoadPopulation(string populationFilePath)
             {
                 List<Inhabitant> inhabitants = new List<Inhabitant>();
+                BirdFactory birdFactory = new BirdFactory(this.Population);
 
                 using (var reader = new StreamReader(populationFilePath))
                 {
@@ -202,7 +204,8 @@ namespace BirdMigrationSimulation.Models
                                 (Age)Enum.Parse(typeof(Age), values[3], true)
                             );
 
-                        Bird bird = new Bird(this.Population, sex, age, birdId);
+                        //Bird bird = new Bird(this.Population, sex, age, birdId);
+                        Bird bird = birdFactory.CreateBird(sex, age, birdId);
                         Habitat habitat = Territory.HabitatGrid.Where(h => h.Id == habitatId).First();
                         Simulation.InsertInhabitant(bird, habitat);
                         inhabitants.Add(bird);

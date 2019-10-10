@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BirdMigrationSimulation.Models.Area;
 
-namespace BirdMigrationSimulation.Models.Inhabitants
+namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 {
     public class BirdPair : Inhabitant
     {
