@@ -1,4 +1,5 @@
 ﻿using BirdMigrationSimulation.Models.Inhabitants;
+using BirdMigrationSimulation.Models.Inhabitants.Birds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace BirdMigrationSimulation.Models.Area
 
         public List<Inhabitant> Inhabitants { get; private set; } = new List<Inhabitant>();
 
-        public Inhabitant MainInhabitant { get; set; }
+        public Inhabitant MainInhabitant => UpdateMainInhabitant();
 
         /// <summary>
         /// Value representing whether the habitat is inhabited (false) or it is uninhabited (true)
@@ -89,6 +90,19 @@ namespace BirdMigrationSimulation.Models.Area
                 throw new Exception("Inhabitant being inserted already exists in this habitat");
 
             this.Inhabitants.Add(inhabitant);
+        }
+
+        private Inhabitant UpdateMainInhabitant()
+        {
+            BirdPair pair = Inhabitants.OfType<BirdPair>().FirstOrDefault();
+            if (pair != null)
+                return pair;
+
+            Bird bird = Inhabitants.OfType<Bird>().FirstOrDefault();
+            if (bird != null)
+                return bird;
+
+            return null;
         }
     }
 }

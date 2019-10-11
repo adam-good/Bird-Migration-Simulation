@@ -38,7 +38,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         public Habitat CurrentHabitat { get; set; }
         public abstract Sex Sex { get; }
         public Age Age { get; private set; }
-        public bool IsPaired { get; protected set; }
+        public bool IsPaired { get; internal set; }
 
         //public Bird(Population population, Sex sex, Age age, long id)
         //{

@@ -74,7 +74,8 @@ namespace BirdMigrationSimulation.Models
             {
                 var bird = Population.Birds.First();
                 Console.WriteLine($"Running Iteration {i}; Bird Location: ({bird.CurrentHabitat.Coordinates})");
-                Population.MigrateBirds(Population.Birds);
+
+                Population.MigrateBirds(Population.SingleBirds);
 
                 if (i % checkpointStep == 0)
                     StateManager.SaveState(i);

@@ -27,12 +27,14 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
                 {
                     int idx = Rng.Next(potentialMates.Count);
                     Habitat nextHabitat = potentialMates[idx];
+                    MaleBird potentialMate = nextHabitat.MainInhabitant as MaleBird;
 
                     double hqiThreshold = Math.Pow(CurrentHabitat.HabitatQualityIndex, MigrationSelectivity);
                     if (Rng.NextDouble() < hqiThreshold)
                     {
                         settle = true;
-                        Population.MoveBird(this, nextHabitat); // Do pairing here
+                        Population.PairBirds(potentialMate, this, nextHabitat);
+                        //Population.MoveBird(this, nextHabitat); // Do pairing here
                     }
                 }
                 else
@@ -48,9 +50,13 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         private bool hasPotentialMate(Habitat habitat)
         {
             if (habitat?.MainInhabitant is MaleBird)
-                return true;
-            else
-                return false;
+            {
+                var male = (MaleBird)habitat.MainInhabitant;
+                if (male.IsPaired == false)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

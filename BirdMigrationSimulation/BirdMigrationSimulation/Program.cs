@@ -16,9 +16,9 @@ namespace BirdMigrationSimulation
         {
             //Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
             int seed = 8675309;
-            Models.Simulation sim = new Models.Simulation((32, 32), 5, seed);
-            Thread t = new Thread(() => sim.Run(10000, 1000));
-            t.Start();
+            Models.Simulation sim = new Models.Simulation((32, 32), 32, seed);
+            Thread simThread = new Thread(() => sim.Run(10*10000, 1000));
+            simThread.Start();
 
             Application app = new Application();
             app.Run(new Views.SimulationWindow(sim));

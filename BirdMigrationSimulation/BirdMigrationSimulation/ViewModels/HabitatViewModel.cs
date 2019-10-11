@@ -1,4 +1,5 @@
 ﻿using BirdMigrationSimulation.Models.Area;
+using BirdMigrationSimulation.Models.Inhabitants.Birds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +27,18 @@ namespace BirdMigrationSimulation.ViewModels
 
         private Color DetermineColor()
         {
-            if (!habitat.IsEmpty)
+            if (habitat.MainInhabitant is MaleBird)
                 return Color.FromRgb(0, 0, 255);
+            else if (habitat.MainInhabitant is FemaleBird)
+                return Color.FromRgb(255, 0, 0);
+            else if (habitat.MainInhabitant is BirdPair)
+                return Color.FromRgb(0, 255, 0);
             else
             {
-                byte g = Convert.ToByte(Math.Floor(HabitatQualityIndex * 255));
-                Color color = Color.FromRgb(g, g, g);
-                return color;
+                //byte g = Convert.ToByte(Math.Floor(HabitatQualityIndex * 255));
+                //Color color = Color.FromRgb(g, g, g);
+                //return color;
+                return Color.FromRgb(0,0,0);
             }
         }
     }

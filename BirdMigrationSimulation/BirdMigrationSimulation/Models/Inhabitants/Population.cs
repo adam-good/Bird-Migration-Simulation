@@ -28,6 +28,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         public List<Bird> Birds => Inhabitants.Where(i => i is Bird).Cast<Bird>().ToList();
         public List<BirdPair> Pairs => Inhabitants.Where(i => i is BirdPair).Cast<BirdPair>().ToList();
+        public List<Bird> SingleBirds => Birds.Where(b => b.IsPaired == false).ToList();
         public List<Bird> Males => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Male).ToList();
         public List<Bird> Females => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Female).ToList();
         public List<Bird> Adults => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Age == Age.Adult).ToList();
@@ -88,6 +89,18 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             newHabitat.InsertInhabitant(bird);
             bird.CurrentHabitat = newHabitat;
         }
+
+        internal void PairBirds(MaleBird male, FemaleBird female, Habitat habitat)
+        {
+            BirdPair birdPair = new BirdPair(this, habitat, male, female);
+            male.IsPaired = true;
+            female.IsPaired = true;
+            MoveBird(male, habitat);
+            MoveBird(female, habitat);
+            habitat.InsertInhabitant(birdPair);
+            Inhabitants.Add(birdPair);
+        }
+
         public void AddInhabitant(Inhabitant inhabitant) => throw new NotImplementedException();
 
         public void AddNewBorn(Bird newborn) => throw new NotImplementedException();
