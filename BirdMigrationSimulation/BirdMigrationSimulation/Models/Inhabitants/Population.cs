@@ -101,6 +101,14 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             Inhabitants.Add(birdPair);
         }
 
+        internal void UnpairBirds(BirdPair pair)
+        {
+            Inhabitants.Remove(pair);
+            pair.CurrentHabitat.Inhabitants.Remove(pair);
+            pair.Pair.MaleBird.IsPaired = false;
+            pair.Pair.FemaleBird.IsPaired = false;
+        }
+
         public void AddInhabitant(Inhabitant inhabitant) => throw new NotImplementedException();
 
         public void AddNewBorn(Bird newborn) => throw new NotImplementedException();
