@@ -27,7 +27,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
                     settle = true;
                 else
                 {
-                    List<Habitat> neighbors = CurrentHabitat.GetNeighbors().Where(h => h.IsEmpty).Append(this.CurrentHabitat).ToList();
+                    List<Habitat> neighbors = CurrentHabitat.GetNeighbors().Where(h => h.IsEmpty).ToList();
                     int idx = Rng.Next(neighbors.Count);
                     Habitat nextHabitat = neighbors[idx];
                     Population.MoveBird(this, nextHabitat);

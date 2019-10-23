@@ -72,13 +72,26 @@ namespace BirdMigrationSimulation.Models
         {
             for (int i = 0; i < timesteps; i++)
             {
-                var bird = Population.Birds.First();
-                Console.WriteLine($"Running Iteration {i}; Bird Location: ({bird.CurrentHabitat.Coordinates})");
+                Console.WriteLine($"Running Iteration {i}");
+                Console.WriteLine($"    Birds: {Population.Birds.Count}");
+                Console.WriteLine($"    Singles: {Population.SingleBirds.Count}");
+                Console.WriteLine($"    Pairs: {Population.Pairs.Count}");
 
+                // Migration
                 Population.MigrateBirds(Population.SingleBirds);
+
+                // Reproduction
+
+                // Death
+                Population.HandleDeath(Population.Birds);
+                Population.RemoveDeadBirds();
+                Population.RemoveInactivePairs();
 
                 if (i % checkpointStep == 0)
                     StateManager.SaveState(i);
+
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
             }
         }
 

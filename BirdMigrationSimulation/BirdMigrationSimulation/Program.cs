@@ -17,16 +17,11 @@ namespace BirdMigrationSimulation
             //Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
             int seed = 8675309;
             Models.Simulation sim = new Models.Simulation((32, 32), 32, seed);
-            Thread simThread = new Thread(() => sim.Run(10*10000, 1000));
+            Thread simThread = new Thread(() => sim.Run(1000, 1000));
             simThread.Start();
 
             Application app = new Application();
             app.Run(new Views.SimulationWindow(sim));
-
-
-            //sim.Run(1000, 100);
-            //sim.LoadState(900);
-            //sim.Run(100, 10);
 
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();

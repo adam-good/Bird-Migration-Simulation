@@ -29,6 +29,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
                     Habitat nextHabitat = potentialMates[idx];
                     MaleBird potentialMate = nextHabitat.MainInhabitant as MaleBird;
 
+                    // Check if mate and habitat are suitable 
                     double hqiThreshold = Math.Pow(CurrentHabitat.HabitatQualityIndex, MigrationSelectivity);
                     if (Rng.NextDouble() < hqiThreshold)
                     {
@@ -47,11 +48,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
             }
         }
 
+        // TODO: This should probably exist in the habitat class
         private bool hasPotentialMate(Habitat habitat)
         {
             if (habitat?.MainInhabitant is MaleBird)
             {
-                var male = (MaleBird)habitat.MainInhabitant;
+                MaleBird male = (MaleBird)habitat.MainInhabitant;
                 if (male.IsPaired == false)
                     return true;
             }

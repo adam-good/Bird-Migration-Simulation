@@ -82,12 +82,41 @@ namespace BirdMigrationSimulation.Models.Inhabitants
                 bird.Migrate();
         }
 
+        public void HandleDeath(List<Bird> birds)
+        {
+            birds = birds.OrderBy(c => Rng.Next()).ToList();
+
+            foreach (var bird in birds)
+                bird.HandleDeath();
+
+            foreach (var pair in Pairs)
+                pair.HandleDeath();
+        }
+
         public void MoveBird(Bird bird, Habitat newHabitat)
         {
             Habitat currentHabitat = bird.CurrentHabitat;
             currentHabitat.RemoveInhabitant(bird);
             newHabitat.InsertInhabitant(bird);
             bird.CurrentHabitat = newHabitat;
+        }
+
+        public void RemoveDeadBirds()
+        {
+            var deadBirds = Birds.Where(b => b.IsLive == false).ToList();
+            foreach (var bird in deadBirds)
+                RemoveInhabitant(bird);
+        }
+
+        public void RemoveInactivePairs()
+        {
+            var pairs = Pairs.Where(p => p.IsActive == false).ToList();
+            foreach (var pair in pairs)
+            {
+                pair.Pair.MaleBird.IsPaired = false;
+                pair.Pair.FemaleBird.IsPaired = false;
+                RemoveInhabitant(pair);
+            }
         }
 
         internal void PairBirds(MaleBird male, FemaleBird female, Habitat habitat)
@@ -103,6 +132,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         internal void UnpairBirds(BirdPair pair)
         {
+            // Maybe this shouldn't happen here...
             Inhabitants.Remove(pair);
             pair.CurrentHabitat.Inhabitants.Remove(pair);
             pair.Pair.MaleBird.IsPaired = false;
@@ -112,5 +142,11 @@ namespace BirdMigrationSimulation.Models.Inhabitants
         public void AddInhabitant(Inhabitant inhabitant) => throw new NotImplementedException();
 
         public void AddNewBorn(Bird newborn) => throw new NotImplementedException();
+
+        public void RemoveInhabitant(Inhabitant inhabitant)
+        {
+            Inhabitants.Remove(inhabitant);
+            inhabitant.CurrentHabitat.RemoveInhabitant(inhabitant);
+        }
     }
 }

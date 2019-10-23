@@ -17,6 +17,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 
         public (Bird MaleBird, Bird FemaleBird) Pair { get; private set; }
 
+        public bool IsActive { get; private set; } = true;
+
         public BirdPair(Population population, Habitat currentHabitat, Bird maleBird, Bird femaleBird)
         {
             this.Population = population;
@@ -24,9 +26,13 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
             this.Pair = (maleBird, femaleBird);
         }
 
+        /// <summary>
+        /// Handles the unpairing in the event of death
+        /// </summary>
         public void HandleDeath()
         {
-            throw new NotImplementedException();
+            if (Pair.MaleBird.IsLive == false || Pair.FemaleBird.IsLive == false)
+                this.IsActive = false;
         }
 
         public void Migrate()

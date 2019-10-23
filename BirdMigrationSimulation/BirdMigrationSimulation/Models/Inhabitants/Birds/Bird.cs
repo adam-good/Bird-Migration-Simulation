@@ -33,21 +33,15 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         public Population Population { get; private set; }
         public Simulation Simulation => Population.Simulation;
         protected Random Rng => Simulation.Rng;
-
         public long birdId { get; private set; }
         public Habitat CurrentHabitat { get; set; }
+        public double HabitatLethality { get; set; } = 0.5;
         public abstract Sex Sex { get; }
         public Age Age { get; private set; }
         public bool IsPaired { get; internal set; }
 
-        //public Bird(Population population, Sex sex, Age age, long id)
-        //{
-        //    this.Population = population;
-        //    this.Sex = sex;
-        //    this.Age = age;
-        //    this.birdId = id;
-        //}
-
+        public bool IsLive { get; internal set; } = true;
+        
         public Bird(Population population, Age age, long id)
         {
             this.Population = population;
@@ -57,15 +51,16 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 
         public void HandleDeath()
         {
-            throw new NotImplementedException();
+            var hqiThreshold = 1 - Math.Pow(0.95 * CurrentHabitat.HabitatQualityIndex, HabitatLethality);
+            if (Rng.NextDouble() < hqiThreshold)
+            {
+                this.IsLive = false;
+                //Population.RemoveInhabitant(this);
+            }
+
+            //throw new NotImplementedException();
         }
 
         public abstract void Migrate();
-        //{
-        //    List<Habitat> neighbors = CurrentHabitat.GetNeighbors().Where(h => h.IsEmpty).ToList();
-        //    int idx = Rng.Next(neighbors.Count);
-        //    Habitat nextHabitat = neighbors[idx];
-        //    Population.MoveBird(this, nextHabitat);
-        //}
     }
 }
