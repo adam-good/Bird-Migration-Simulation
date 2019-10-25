@@ -82,6 +82,25 @@ namespace BirdMigrationSimulation.Models.Inhabitants
                 bird.Migrate();
         }
 
+        internal void Reproduce(List<BirdPair> pairs)
+        {
+            pairs = pairs.OrderBy(c => Rng.Next()).ToList();
+
+            foreach (var pair in pairs)
+            {
+                var offspring = pair.Reproduce();
+                NewBorns.AddRange(offspring);
+            }
+        }
+
+        internal void IntegrateNewBorns()
+        {
+            foreach (var bird in NewBorns)
+                bird.IncreaseAge();
+            Inhabitants.AddRange(NewBorns);
+            NewBorns = new List<Bird>();
+        }
+
         public void HandleDeath(List<Bird> birds)
         {
             birds = birds.OrderBy(c => Rng.Next()).ToList();

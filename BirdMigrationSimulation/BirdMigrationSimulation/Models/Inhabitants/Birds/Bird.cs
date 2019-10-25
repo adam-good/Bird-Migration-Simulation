@@ -22,7 +22,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
     public enum Age
     {
         Adult,
-        Juvenile
+        Juvenile,
+        NewBorn
     }
 
     /// <summary>
@@ -59,6 +60,14 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
             }
 
             //throw new NotImplementedException();
+        }
+
+        internal void IncreaseAge()
+        {
+            if (Age == Age.NewBorn)
+                Age = Age.Juvenile;
+            else if (Age == Age.Juvenile)
+                Age = Age.Adult;
         }
 
         public abstract void Migrate();

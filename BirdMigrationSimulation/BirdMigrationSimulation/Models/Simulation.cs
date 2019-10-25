@@ -77,10 +77,13 @@ namespace BirdMigrationSimulation.Models
                 Console.WriteLine($"    Singles: {Population.SingleBirds.Count}");
                 Console.WriteLine($"    Pairs: {Population.Pairs.Count}");
 
+                Population.IntegrateNewBorns();
+
                 // Migration
                 Population.MigrateBirds(Population.SingleBirds);
 
                 // Reproduction
+                Population.Reproduce(Population.Pairs);
 
                 // Death
                 Population.HandleDeath(Population.Birds);
