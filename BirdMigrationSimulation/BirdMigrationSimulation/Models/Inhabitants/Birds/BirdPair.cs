@@ -42,20 +42,16 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
             throw new NotImplementedException();
         }
 
-        internal List<Bird> Reproduce()
+        /// <summary>
+        /// TODO: This needs renamed
+        /// 
+        /// This will determine how many offspring this pair will reproduce in this timestep
+        /// </summary>
+        /// <returns>int: Number of offspring</returns>
+        internal int Reproduce()
         {
-            BirdFactory birdFactory = new BirdFactory(this.Population);
             int numOffspring = Rng.Next(0, 3);
-            List<Bird> newborns = new List<Bird>();
-            for (int i = 0; i < numOffspring; i++)
-            {
-                Sex sex = (Sex)Rng.Next(0, 1);
-                Bird bird = birdFactory.CreateBird(sex, Age.NewBorn, 0); // TODO: Fix bird id problem here
-                newborns.Add(bird);
-            }
-
-            //return newborns;
-            return new List<Bird>();
+            return numOffspring;
             //throw new NotImplementedException();
         }
     }

@@ -28,6 +28,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
                 else
                 {
                     List<Habitat> neighbors = CurrentHabitat.GetNeighbors().Where(h => h.IsEmpty).ToList();
+                    if (neighbors.Count == 0) // If we can't move anywhere just chill here I guess?
+                        return;
                     int idx = Rng.Next(neighbors.Count);
                     Habitat nextHabitat = neighbors[idx];
                     Population.MoveBird(this, nextHabitat);

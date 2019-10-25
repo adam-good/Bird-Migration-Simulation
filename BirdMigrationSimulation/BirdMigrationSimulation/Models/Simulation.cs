@@ -76,8 +76,10 @@ namespace BirdMigrationSimulation.Models
                 Console.WriteLine($"    Birds: {Population.Birds.Count}");
                 Console.WriteLine($"    Singles: {Population.SingleBirds.Count}");
                 Console.WriteLine($"    Pairs: {Population.Pairs.Count}");
+                Console.WriteLine($"    New Borns:\t {Population.NewBorns.Count}");
 
-                Population.IntegrateNewBorns();
+                // Insert new migrants
+                Population.PopulatePopulation(5);
 
                 // Migration
                 Population.MigrateBirds(Population.SingleBirds);

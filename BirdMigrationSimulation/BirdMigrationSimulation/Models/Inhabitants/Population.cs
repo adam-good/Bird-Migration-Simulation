@@ -22,12 +22,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         public List<Inhabitant> Inhabitants { get; private set; } = new List<Inhabitant>();
 
-        public List<Bird> NewBorns { get; set; } = new List<Bird>();
 
         public long birdIDCounter = 0;
 
         public List<Bird> Birds => Inhabitants.Where(i => i is Bird).Cast<Bird>().ToList();
         public List<BirdPair> Pairs => Inhabitants.Where(i => i is BirdPair).Cast<BirdPair>().ToList();
+        public List<Bird> NewBorns => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Age == Age.NewBorn).ToList();
         public List<Bird> SingleBirds => Birds.Where(b => b.IsPaired == false).ToList();
         public List<Bird> Males => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Male).ToList();
         public List<Bird> Females => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Female).ToList();
@@ -63,12 +63,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             return bird;
         }
 
-        private void PopulatePopulation(int numBirds)
+        internal void PopulatePopulation(int numBirds)
         {
-            for (int i = 0; i < numBirds; i++)
+            var habitats = Territory.HabitatGrid.Where(h => h.IsEmpty).OrderBy(x => Rng.Next()).Take(numBirds);
+            foreach (var habitat in habitats)
             {
-                Habitat habitat = this.Territory.GetHabitat(i, i);
-                Sex sex = (Sex)(i % 2);
+                Sex sex = (Sex)Rng.Next(0, 2);
                 AddBird(habitat, sex, Age.Adult);
             }
         }
@@ -82,23 +82,21 @@ namespace BirdMigrationSimulation.Models.Inhabitants
                 bird.Migrate();
         }
 
+        // TODO: This could probably be more efficient
         internal void Reproduce(List<BirdPair> pairs)
         {
             pairs = pairs.OrderBy(c => Rng.Next()).ToList();
 
             foreach (var pair in pairs)
             {
-                var offspring = pair.Reproduce();
-                NewBorns.AddRange(offspring);
+                int numOffspring = pair.Reproduce();
+                for (int i = 0; i < numOffspring; i++)
+                {
+                    Sex sex = (Sex)Rng.Next(0, 2);
+                    Bird babyBird = AddBird(pair.CurrentHabitat, sex, Age.NewBorn);
+                    NewBorns.Add(babyBird);
+                }
             }
-        }
-
-        internal void IntegrateNewBorns()
-        {
-            foreach (var bird in NewBorns)
-                bird.IncreaseAge();
-            Inhabitants.AddRange(NewBorns);
-            NewBorns = new List<Bird>();
         }
 
         public void HandleDeath(List<Bird> birds)
