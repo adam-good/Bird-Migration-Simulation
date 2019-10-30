@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using BirdMigrationSimulation.Models.Area;
 using BirdMigrationSimulation.Models.Inhabitants;
+using BirdMigrationSimulation.Models.Inhabitants.Birds;
 using BirdMigrationSimulation.Utilities;
 
 namespace BirdMigrationSimulation.Models
@@ -71,12 +72,34 @@ namespace BirdMigrationSimulation.Models
         {
             for (int i = 0; i < timesteps; i++)
             {
-                var bird = Population.Birds.First();
-                Console.WriteLine($"Running Iteration {i}; Bird Location: ({bird.CurrentHabitat.Coordinates})");
-                Population.MigrateBirds(Population.Birds);
+                Console.WriteLine($"Running Iteration {i}");
+                Console.WriteLine($"    Birds: {Population.Birds.Count}");
+                Console.WriteLine($"    Singles: {Population.SingleBirds.Count}");
+                Console.WriteLine($"    Pairs: {Population.Pairs.Count}");
+                Console.WriteLine($"    New Borns:\t {Population.NewBorns.Count}");
+
+                // Insert new migrants
+                Population.PopulatePopulation(5);
+
+                // Migration
+                Population.MigrateBirds(Population.SingleBirds);
+
+                // Birthdays!
+                Population.IncreaseAge(Population.Birds);
+
+                // Reproduction
+                Population.Reproduce(Population.Pairs);
+
+                // Death
+                Population.HandleDeath(Population.Birds);
+                Population.RemoveDeadBirds();
+                Population.RemoveInactivePairs();
 
                 if (i % checkpointStep == 0)
                     StateManager.SaveState(i);
+
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
             }
         }
 
@@ -136,7 +159,7 @@ namespace BirdMigrationSimulation.Models
                 StringBuilder stringBuilder = new StringBuilder();
 
                 foreach (var bird in Population.Birds)
-                    stringBuilder.Append($"{bird.birdId}, {bird.CurrentHabitat.Id}, {bird.Sex}, {bird.Age}\n");
+                    stringBuilder.Append($"{bird.birdId}, {bird.CurrentHabitat.Id}, {bird.Sex}, {bird.AgeClass}\n");
 
                 FileStream fileStream = new FileStream(populationFilePath, FileMode.Create, FileAccess.Write);
                 using (StreamWriter writer = new StreamWriter(fileStream))
@@ -184,6 +207,7 @@ namespace BirdMigrationSimulation.Models
             private void LoadPopulation(string populationFilePath)
             {
                 List<Inhabitant> inhabitants = new List<Inhabitant>();
+                BirdFactory birdFactory = new BirdFactory(this.Population);
 
                 using (var reader = new StreamReader(populationFilePath))
                 {
@@ -195,14 +219,15 @@ namespace BirdMigrationSimulation.Models
                             continue;
                         var values = line.Split(',');
 
-                        (int birdId, int habitatId, Sex sex, Age age) = (
+                        (int birdId, int habitatId, Sex sex, int age) = (
                                 Int32.Parse(values[0]),
                                 Int32.Parse(values[1]),
                                 (Sex)Enum.Parse(typeof(Sex), values[2], true),
-                                (Age)Enum.Parse(typeof(Age), values[3], true)
+                                Int32.Parse(values[3])
                             );
 
-                        Bird bird = new Bird(this.Population, sex, age, birdId);
+                        //Bird bird = new Bird(this.Population, sex, age, birdId);
+                        Bird bird = birdFactory.CreateBird(sex, age, birdId);
                         Habitat habitat = Territory.HabitatGrid.Where(h => h.Id == habitatId).First();
                         Simulation.InsertInhabitant(bird, habitat);
                         inhabitants.Add(bird);
