@@ -15,7 +15,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
             this.Population = pop;
         }
 
-        public Bird CreateBird(Sex sex, Age age, long birdId)
+        public Bird CreateBird(Sex sex, int age, long birdId)
         {
             switch (sex)
             {

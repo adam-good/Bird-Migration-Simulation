@@ -27,12 +27,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         public List<Bird> Birds => Inhabitants.Where(i => i is Bird).Cast<Bird>().ToList();
         public List<BirdPair> Pairs => Inhabitants.Where(i => i is BirdPair).Cast<BirdPair>().ToList();
-        public List<Bird> NewBorns => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Age == Age.NewBorn).ToList();
+        public List<Bird> NewBorns => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.AgeClass == AgeClass.NewBorn).ToList();
         public List<Bird> SingleBirds => Birds.Where(b => b.IsPaired == false).ToList();
         public List<Bird> Males => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Male).ToList();
         public List<Bird> Females => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Female).ToList();
-        public List<Bird> Adults => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Age == Age.Adult).ToList();
-        public List<Bird> Juveniles => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Age == Age.Juvenile).ToList();
+        public List<Bird> Adults => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.AgeClass == AgeClass.Adult).ToList();
+        public List<Bird> Juveniles => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.AgeClass == AgeClass.Juvenile).ToList();
 
         public Population(Simulation simulation, int numBirds)
         {
@@ -46,7 +46,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             this.Inhabitants = inhabitants;
         }
 
-        private Bird AddBird(Habitat habitat, Sex sex, Age age)
+        private Bird AddBird(Habitat habitat, Sex sex, int age)
         {
             //            Bird bird = new Bird(this, habitat, sex, age, birdIDCounter);
             //Bird bird = new Bird(this, sex, age, birdIDCounter);
@@ -69,7 +69,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants
             foreach (var habitat in habitats)
             {
                 Sex sex = (Sex)Rng.Next(0, 2);
-                AddBird(habitat, sex, Age.Adult);
+                int age = 2; // TODO: No magic numbers!
+                AddBird(habitat, sex, 2);
             }
         }
 
@@ -80,6 +81,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
             foreach (var bird in birds)
                 bird.Migrate();
+        }
+
+        public void IncreaseAge(List<Bird> birds)
+        {
+            foreach (var bird in birds)
+                bird.IncreaseAge();
         }
 
         // TODO: This could probably be more efficient
@@ -93,7 +100,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
                 for (int i = 0; i < numOffspring; i++)
                 {
                     Sex sex = (Sex)Rng.Next(0, 2);
-                    Bird babyBird = AddBird(pair.CurrentHabitat, sex, Age.NewBorn);
+                    Bird babyBird = AddBird(pair.CurrentHabitat, sex, 0);
                     NewBorns.Add(babyBird);
                 }
             }

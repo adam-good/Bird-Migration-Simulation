@@ -84,6 +84,9 @@ namespace BirdMigrationSimulation.Models
                 // Migration
                 Population.MigrateBirds(Population.SingleBirds);
 
+                // Birthdays!
+                Population.IncreaseAge(Population.Birds);
+
                 // Reproduction
                 Population.Reproduce(Population.Pairs);
 
@@ -156,7 +159,7 @@ namespace BirdMigrationSimulation.Models
                 StringBuilder stringBuilder = new StringBuilder();
 
                 foreach (var bird in Population.Birds)
-                    stringBuilder.Append($"{bird.birdId}, {bird.CurrentHabitat.Id}, {bird.Sex}, {bird.Age}\n");
+                    stringBuilder.Append($"{bird.birdId}, {bird.CurrentHabitat.Id}, {bird.Sex}, {bird.AgeClass}\n");
 
                 FileStream fileStream = new FileStream(populationFilePath, FileMode.Create, FileAccess.Write);
                 using (StreamWriter writer = new StreamWriter(fileStream))
@@ -216,11 +219,11 @@ namespace BirdMigrationSimulation.Models
                             continue;
                         var values = line.Split(',');
 
-                        (int birdId, int habitatId, Sex sex, Age age) = (
+                        (int birdId, int habitatId, Sex sex, int age) = (
                                 Int32.Parse(values[0]),
                                 Int32.Parse(values[1]),
                                 (Sex)Enum.Parse(typeof(Sex), values[2], true),
-                                (Age)Enum.Parse(typeof(Age), values[3], true)
+                                Int32.Parse(values[3])
                             );
 
                         //Bird bird = new Bird(this.Population, sex, age, birdId);

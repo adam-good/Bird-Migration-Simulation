@@ -13,7 +13,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         public int MigrationMoves { get; private set; } = 3;
         public double MigrationSelectivity { get; private set; } = 0.5;
 
-        public FemaleBird(Population population, Age age, long id) : base(population, age, id) { }
+        public FemaleBird(Population population, int age, long id) : base(population, age, id) { }
 
         public override void Migrate()
         {

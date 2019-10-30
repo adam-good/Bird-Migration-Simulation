@@ -19,11 +19,11 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
     /// <summary>
     /// Contains the possible ages of the birds
     /// </summary>
-    public enum Age
+    public enum AgeClass
     {
-        Adult,
+        NewBorn,
         Juvenile,
-        NewBorn
+        Adult,
     }
 
     /// <summary>
@@ -38,12 +38,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         public Habitat CurrentHabitat { get; set; }
         public double HabitatLethality { get; set; } = 0.5;
         public abstract Sex Sex { get; }
-        public Age Age { get; private set; }
+        public int Age { get; internal set; } = 0;
+        public AgeClass AgeClass => DetermineAgeClass(this.Age);
         public bool IsPaired { get; internal set; }
-
         public bool IsLive { get; internal set; } = true;
         
-        public Bird(Population population, Age age, long id)
+        public Bird(Population population, int age, long id)
         {
             this.Population = population;
             this.Age = age;
@@ -62,12 +62,20 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
             //throw new NotImplementedException();
         }
 
+        private AgeClass DetermineAgeClass(int age)
+        {
+            // TODO: Don't do magic numbers kiddo
+            if (age < 1)
+                return AgeClass.NewBorn;
+            else if (age < 2)
+                return AgeClass.Juvenile;
+            else
+                return AgeClass.Adult;
+        }
+
         internal void IncreaseAge()
         {
-            if (Age == Age.NewBorn)
-                Age = Age.Juvenile;
-            else if (Age == Age.Juvenile)
-                Age = Age.Adult;
+            this.Age += 1;
         }
 
         public abstract void Migrate();
