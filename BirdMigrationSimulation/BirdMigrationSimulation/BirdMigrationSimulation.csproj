@@ -48,8 +48,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Inhabitants\Bird.cs" />
-    <Compile Include="Models\Inhabitants\BirdPair.cs" />
+    <Compile Include="Models\Inhabitants\Birds\Bird.cs" />
+    <Compile Include="Models\Inhabitants\Birds\BirdFactory.cs" />
+    <Compile Include="Models\Inhabitants\Birds\BirdPair.cs" />
+    <Compile Include="Models\Inhabitants\Birds\FemaleBird.cs" />
+    <Compile Include="Models\Inhabitants\Birds\MaleBird.cs" />
     <Compile Include="Models\Inhabitants\Inhabitant.cs" />
     <Compile Include="Models\Inhabitants\Population.cs" />
     <Compile Include="Models\Simulation.cs" />
