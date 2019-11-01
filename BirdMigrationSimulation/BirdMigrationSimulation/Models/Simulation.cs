@@ -26,15 +26,16 @@ namespace BirdMigrationSimulation.Models
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="dataPath">Path where data will be saved when saving state</param>
         /// <param name="gridDims">The dimensions to be used for the territory grid</param>
         /// <param name="numInitialBirds">The number of birds to initially populate the simulation with</param>
         /// <param name="rng_seed">Optional seed for Random Number Generator. A value of 0 (the default value) will result in a random seed.</param>
-        public Simulation((int x, int y) gridDims, int numInitialBirds, int rng_seed = 0)
+        public Simulation(string dataPath, (int x, int y) gridDims, int numInitialBirds, int rng_seed = 0)
         {
             if (rng_seed != 0)
                 Rng = new Random(rng_seed);
 
-            this.StateManager = new SimulationStateManager("C:\\Users\\Adam Good\\Desktop\\Birdies\\", this);
+            this.StateManager = new SimulationStateManager(dataPath, this);
 
 
             // This is temporary. These should come from a configuration file
@@ -98,8 +99,8 @@ namespace BirdMigrationSimulation.Models
                 if (i % checkpointStep == 0)
                     StateManager.SaveState(i);
 
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
+                //Console.WriteLine("Press any key to continue...");
+                //Console.ReadKey();
             }
         }
 
