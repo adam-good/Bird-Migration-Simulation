@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BirdMigrationSimulation.Models.Area;
+using BirdMigrationSimulation.Models.Configuration;
 
 namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 {
@@ -33,10 +34,11 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
     {
         public Population Population { get; private set; }
         public Simulation Simulation => Population.Simulation;
+        public BirdConfiguration Configuration => (Sex == Sex.Male) ? Simulation.Configuration.MaleBirdConfig : Simulation.Configuration.FemaleBirdConfig;
         protected Random Rng => Simulation.Rng;
         public long birdId { get; private set; }
         public Habitat CurrentHabitat { get; set; }
-        public double HabitatLethality { get; set; } = 0.5;
+        public double HabitatLethality => (AgeClass == AgeClass.Adult) ? Configuration.AdultLethality : Configuration.JuvenileLethality;
         public abstract Sex Sex { get; }
         public int Age { get; internal set; } = 0;
         public AgeClass AgeClass => DetermineAgeClass(this.Age);
@@ -54,12 +56,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         {
             var hqiThreshold = 1 - Math.Pow(0.95 * CurrentHabitat.HabitatQualityIndex, HabitatLethality);
             if (Rng.NextDouble() < hqiThreshold)
-            {
                 this.IsLive = false;
-                //Population.RemoveInhabitant(this);
-            }
 
-            //throw new NotImplementedException();
         }
 
         private AgeClass DetermineAgeClass(int age)

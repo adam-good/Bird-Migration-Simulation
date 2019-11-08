@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BirdMigrationSimulation.Models.Area;
+using BirdMigrationSimulation.Models.Configuration;
 using BirdMigrationSimulation.Models.Inhabitants;
 using BirdMigrationSimulation.Models.Inhabitants.Birds;
 using BirdMigrationSimulation.Utilities;
@@ -17,7 +18,8 @@ namespace BirdMigrationSimulation.Models
     /// </summary>
     public class Simulation
     {
-        public Random Rng { get; set; }
+        public SimulationConfiguration Configuration { get; private set; }
+        public Random Rng { get; private set; }
         public Territory Territory { get; set; }
         public Population Population { get; set; }
 
@@ -26,21 +28,15 @@ namespace BirdMigrationSimulation.Models
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="configuration">Configuration for this simulation</param>
         /// <param name="dataPath">Path where data will be saved when saving state</param>
-        /// <param name="gridDims">The dimensions to be used for the territory grid</param>
-        /// <param name="numInitialBirds">The number of birds to initially populate the simulation with</param>
-        /// <param name="rng_seed">Optional seed for Random Number Generator. A value of 0 (the default value) will result in a random seed.</param>
-        public Simulation(string dataPath, (int x, int y) gridDims, int numInitialBirds, int rng_seed = 0)
+        public Simulation(SimulationConfiguration configuration, string dataPath)
         {
-            if (rng_seed != 0)
-                Rng = new Random(rng_seed);
-
-            this.StateManager = new SimulationStateManager(dataPath, this);
-
-
-            // This is temporary. These should come from a configuration file
-            (int x, int y) = gridDims;
-            Init(x, y, numInitialBirds);
+            this.Configuration = configuration;
+            Rng = new Random(this.Configuration.RandomSeed);
+            StateManager = new SimulationStateManager(dataPath, this);
+            this.Territory = new Territory(this, configuration.TerritorySize.Width, configuration.TerritorySize.Height);
+            this.Population = new Population(this, configuration.InitialPopulationSize);
         }
 
         public void LoadState(int timestep)
@@ -62,13 +58,7 @@ namespace BirdMigrationSimulation.Models
             inhabitant.CurrentHabitat = habitat;
             habitat.InsertInhabitant(inhabitant);
         }
-
-        public void Init(int width, int height, int numInitialBirds)
-        {
-            this.Territory = new Territory(this, width, height);
-            this.Population = new Population(this, numInitialBirds);
-        }
-
+        
         public void Run(int timesteps, int checkpointStep)
         {
             for (int i = 0; i < timesteps; i++)

@@ -26,24 +26,25 @@ namespace BirdMigrationSimulation
             SimulationConfiguration configuration = new SimulationConfiguration();
             configuration.LoadConfiguration(filepath);
 
-            Console.WriteLine("Please Select Data Output Path");
-            Console.WriteLine("Press ENTER key to continue...");
-            Console.ReadKey();
-
-            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
-            fbd.ShowDialog();
-            string outputpath = fbd.SelectedPath + '\\';
-            Console.WriteLine(outputpath);
+            string outputpath = Path.GetDirectoryName(filepath) + "\\data\\";
+            if (!Directory.Exists(outputpath))
+                Directory.CreateDirectory(outputpath);
+            Console.WriteLine($"Output Path: {outputpath}");
             Console.WriteLine("Press ENTER key to START");
             Console.ReadKey();
 
-            int seed = 8675309;
-            Models.Simulation sim = new Models.Simulation(outputpath, (32, 32), 32, seed);
-            Thread simThread = new Thread(() => sim.Run(300, 100));
+            Models.Simulation simulation = new Models.Simulation(configuration, outputpath);
+            Application app = new Application();
+            Thread simThread = new Thread(() => {
+                // TODO: Wait for window to open if possible?
+                simulation.Run(configuration.Timesteps, configuration.CheckpointTimestep); 
+            });
+
             simThread.Start();
 
-            Application app = new Application();
-            app.Run(new Views.SimulationWindow(sim));
+            app.Run(new Views.SimulationWindow(simulation));
+
+            simThread.Join();
 
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
