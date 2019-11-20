@@ -64,13 +64,13 @@ namespace BirdMigrationSimulation.Models
             for (int i = 0; i < timesteps; i++)
             {
                 Console.WriteLine($"Running Iteration {i}");
-                Console.WriteLine($"    Birds: {Population.Birds.Count}");
-                Console.WriteLine($"    Singles: {Population.SingleBirds.Count}");
-                Console.WriteLine($"    Pairs: {Population.Pairs.Count}");
+                Console.WriteLine($"    Birds:\t {Population.Birds.Count}");
+                Console.WriteLine($"    Singles:\t {Population.SingleBirds.Count}");
+                Console.WriteLine($"    Pairs:\t {Population.Pairs.Count}");
                 Console.WriteLine($"    New Borns:\t {Population.NewBorns.Count}");
 
                 // Insert new migrants
-                Population.PopulatePopulation(5);
+                Population.PopulatePopulation(Configuration.PopulationIncreaseSize);
 
                 // Migration
                 Population.MigrateBirds(Population.SingleBirds);

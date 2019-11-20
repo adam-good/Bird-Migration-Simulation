@@ -30,23 +30,41 @@ namespace BirdMigrationSimulation
             if (!Directory.Exists(outputpath))
                 Directory.CreateDirectory(outputpath);
             Console.WriteLine($"Output Path: {outputpath}");
+
+
+
             Console.WriteLine("Press ENTER key to START");
             Console.ReadKey();
 
             Models.Simulation simulation = new Models.Simulation(configuration, outputpath);
-            Application app = new Application();
             Thread simThread = new Thread(() => {
                 // TODO: Wait for window to open if possible?
-                simulation.Run(configuration.Timesteps, configuration.CheckpointTimestep); 
+                simulation.Run(configuration.Timesteps, configuration.CheckpointTimestep);
             });
 
-            simThread.Start();
+            // Set up GUI thread
+            Thread guiThread = null;
+            if (configuration.ShowGUI)
+            {
+                guiThread = new Thread(() => {
+                    Application app = new Application();
+                    app.Run(new Views.SimulationWindow(simulation));
+                });
+                guiThread.SetApartmentState(ApartmentState.STA);
+            }
 
-            app.Run(new Views.SimulationWindow(simulation));
+            guiThread?.Start();
+            simThread.Start();
+                    
+            //app.Run(new Views.SimulationWindow(simulation));
 
             simThread.Join();
+            guiThread?.Join();
 
-            Console.WriteLine("Press any key to continue...");
+
+
+
+            Console.WriteLine("Press any key to EXIT...");
             Console.ReadKey();
         }
     }

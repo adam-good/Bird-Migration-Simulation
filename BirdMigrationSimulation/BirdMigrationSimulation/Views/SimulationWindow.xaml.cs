@@ -1,4 +1,5 @@
 ﻿using BirdMigrationSimulation.Models;
+using BirdMigrationSimulation.Models.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace BirdMigrationSimulation.Views
     public partial class SimulationWindow : Window
     {
         private Simulation simulation;
+        private SimulationConfiguration Configuration => simulation.Configuration;
 
         DispatcherTimer updateTimer;
 
@@ -23,7 +25,7 @@ namespace BirdMigrationSimulation.Views
             this.Grid.InitGrid(this.simulation.Territory);
 
             this.updateTimer = new DispatcherTimer();
-            updateTimer.Interval = new TimeSpan(0, 0, 1);
+            updateTimer.Interval = Configuration.GUIUpdateTime;
             updateTimer.Tick += delegate
             {
                 this.Grid.Update();

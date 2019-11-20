@@ -44,14 +44,19 @@ namespace BirdMigrationSimulation.Models.Configuration
         public int Timesteps => int.Parse(keyValuePairs[TIMESTEPS_KEY]);
         public int CheckpointTimestep => int.Parse(keyValuePairs[CHECKPOINT_TIMESTEP_KEY]);
         public bool ShowGUI => bool.Parse(keyValuePairs[SHOW_GUI_KEY]);
-        public double GUIUpdateTime => double.Parse(keyValuePairs[GUI_UPDATE_TIME_KEY]);
+
+        // GUI Update Time in ms
+        private double updateMS => double.Parse(keyValuePairs[GUI_UPDATE_TIME_KEY]);
+        public TimeSpan GUIUpdateTime => TimeSpan.FromMilliseconds(updateMS);
 
         // Territory Settings
         public (int Width, int Height) TerritorySize => (
                 int.Parse(keyValuePairs[TERRITORY_WIDTH_KEY]),
                 int.Parse(keyValuePairs[TERRITORY_HEIGHT_KEY])
             );
-        public string HQIDistribution => keyValuePairs[HQI_DIST_KEY];
+
+        public string HQIDistribution => throw new NotImplementedException();
+        //public string HQIDistribution => keyValuePairs[HQI_DIST_KEY];
 
         // Population Settings
         public int InitialPopulationSize => int.Parse(keyValuePairs[INIT_POP_SIZE_KEY]);
@@ -64,6 +69,7 @@ namespace BirdMigrationSimulation.Models.Configuration
         public BirdConfiguration FemaleBirdConfig => femaleBirdConfig;
 
         public double AverageOffpsring => double.Parse(keyValuePairs[AVG_OFFSPRING_KEY]);
+        public string OffspringDistribution => throw new NotImplementedException();
 
         public void LoadConfiguration(string filepath)
         {
