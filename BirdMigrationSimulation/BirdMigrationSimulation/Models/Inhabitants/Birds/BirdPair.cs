@@ -17,6 +17,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 
         public Habitat CurrentHabitat { get; set; }
 
+        private double averageOffspring => Population.AvgOffspring;
+
         public (Bird MaleBird, Bird FemaleBird) Pair { get; private set; }
 
         public bool IsActive { get; private set; } = true;
@@ -50,9 +52,10 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         /// <returns>int: Number of offspring</returns>
         internal int Reproduce()
         {
-            int numOffspring = Rng.Next(0, 3);
+            int min = 0;
+            int max = (int)Math.Round(2 * averageOffspring);
+            int numOffspring = Rng.Next(min, max);
             return numOffspring;
-            //throw new NotImplementedException();
         }
     }
 }

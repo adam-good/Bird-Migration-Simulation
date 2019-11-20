@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BirdMigrationSimulation.Models.Area;
+using BirdMigrationSimulation.Models.Configuration;
 using BirdMigrationSimulation.Models.Inhabitants;
 using BirdMigrationSimulation.Models.Inhabitants.Birds;
 using BirdMigrationSimulation.Utilities;
@@ -17,7 +18,8 @@ namespace BirdMigrationSimulation.Models
     /// </summary>
     public class Simulation
     {
-        public Random Rng { get; set; }
+        public SimulationConfiguration Configuration { get; private set; }
+        public Random Rng { get; private set; }
         public Territory Territory { get; set; }
         public Population Population { get; set; }
 
@@ -26,20 +28,15 @@ namespace BirdMigrationSimulation.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="gridDims">The dimensions to be used for the territory grid</param>
-        /// <param name="numInitialBirds">The number of birds to initially populate the simulation with</param>
-        /// <param name="rng_seed">Optional seed for Random Number Generator. A value of 0 (the default value) will result in a random seed.</param>
-        public Simulation((int x, int y) gridDims, int numInitialBirds, int rng_seed = 0)
+        /// <param name="configuration">Configuration for this simulation</param>
+        /// <param name="dataPath">Path where data will be saved when saving state</param>
+        public Simulation(SimulationConfiguration configuration, string dataPath)
         {
-            if (rng_seed != 0)
-                Rng = new Random(rng_seed);
-
-            this.StateManager = new SimulationStateManager("C:\\Users\\Adam Good\\Desktop\\Birdies\\", this);
-
-
-            // This is temporary. These should come from a configuration file
-            (int x, int y) = gridDims;
-            Init(x, y, numInitialBirds);
+            this.Configuration = configuration;
+            Rng = new Random(this.Configuration.RandomSeed);
+            StateManager = new SimulationStateManager(dataPath, this);
+            this.Territory = new Territory(this, configuration.TerritorySize.Width, configuration.TerritorySize.Height);
+            this.Population = new Population(this, configuration.InitialPopulationSize);
         }
 
         public void LoadState(int timestep)
@@ -61,25 +58,19 @@ namespace BirdMigrationSimulation.Models
             inhabitant.CurrentHabitat = habitat;
             habitat.InsertInhabitant(inhabitant);
         }
-
-        public void Init(int width, int height, int numInitialBirds)
-        {
-            this.Territory = new Territory(this, width, height);
-            this.Population = new Population(this, numInitialBirds);
-        }
-
+        
         public void Run(int timesteps, int checkpointStep)
         {
             for (int i = 0; i < timesteps; i++)
             {
                 Console.WriteLine($"Running Iteration {i}");
-                Console.WriteLine($"    Birds: {Population.Birds.Count}");
-                Console.WriteLine($"    Singles: {Population.SingleBirds.Count}");
-                Console.WriteLine($"    Pairs: {Population.Pairs.Count}");
+                Console.WriteLine($"    Birds:\t {Population.Birds.Count}");
+                Console.WriteLine($"    Singles:\t {Population.SingleBirds.Count}");
+                Console.WriteLine($"    Pairs:\t {Population.Pairs.Count}");
                 Console.WriteLine($"    New Borns:\t {Population.NewBorns.Count}");
 
                 // Insert new migrants
-                Population.PopulatePopulation(5);
+                Population.PopulatePopulation(Configuration.PopulationIncreaseSize);
 
                 // Migration
                 Population.MigrateBirds(Population.SingleBirds);
@@ -98,8 +89,8 @@ namespace BirdMigrationSimulation.Models
                 if (i % checkpointStep == 0)
                     StateManager.SaveState(i);
 
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
+                //Console.WriteLine("Press any key to continue...");
+                //Console.ReadKey();
             }
         }
 
