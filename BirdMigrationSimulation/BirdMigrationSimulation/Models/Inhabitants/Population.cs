@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BirdMigrationSimulation.Models.Area;
+using BirdMigrationSimulation.Models.Configuration;
 using BirdMigrationSimulation.Models.Inhabitants.Birds;
 
 namespace BirdMigrationSimulation.Models.Inhabitants
@@ -15,7 +16,6 @@ namespace BirdMigrationSimulation.Models.Inhabitants
     public class Population
     {
         public Simulation Simulation { get; private set; }
-
         public Random Rng => Simulation.Rng;
 
         public Territory Territory => Simulation.Territory;
@@ -25,6 +25,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         public long birdIDCounter = 0;
 
+        public double AvgOffspring => Simulation.Configuration.AverageOffpsring;
+
         public List<Bird> Birds => Inhabitants.Where(i => i is Bird).Cast<Bird>().ToList();
         public List<BirdPair> Pairs => Inhabitants.Where(i => i is BirdPair).Cast<BirdPair>().ToList();
         public List<Bird> NewBorns => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.AgeClass == AgeClass.NewBorn).ToList();
@@ -33,6 +35,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
         public List<Bird> Females => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.Sex == Sex.Female).ToList();
         public List<Bird> Adults => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.AgeClass == AgeClass.Adult).ToList();
         public List<Bird> Juveniles => Inhabitants.Where(i => i is Bird).Cast<Bird>().Where(b => b.AgeClass == AgeClass.Juvenile).ToList();
+
 
         public Population(Simulation simulation, int numBirds)
         {

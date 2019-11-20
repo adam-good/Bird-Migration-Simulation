@@ -1,0 +1,33 @@
+# Simulation Settings
+random_seed:		8675309
+timesteps:		1000
+checkpoint_timestep:	100
+show_gui:		true
+gui_update_time:	1
+
+# Territory Settings
+territory_width:	128
+territory_height:	128
+hqi_distribution:	uniform
+
+#Population Settings
+init_population_size:	100
+annual_population_inc:	5
+
+# Bird Settings
+adult_male_migration_moves:		3
+adult_male_habitat_selectivity:		1
+adult_male_lethality:			0.75
+juvenile_male_migration_moves:		3
+juvenile_male_habitat_selectivity:	0.3
+juvenile_male_lethality:		1
+
+adult_female_migration_moves:		3
+adult_female_habitat_selectivity:	1
+adult_female_lethality:			0.75
+juvenile_female_migration_moves:	3
+juvenile_female_migration_selectivity:	0.3
+juvenile_female_lethality:		1
+
+avg_offspring:	1.5
+offspring_distribution:	uniform
