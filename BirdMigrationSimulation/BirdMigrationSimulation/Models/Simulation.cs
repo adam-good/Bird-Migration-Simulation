@@ -119,8 +119,6 @@ namespace BirdMigrationSimulation.Models
                 SaveTerritory(territoryFilePath);
                 SavePopulation(populationFilePath);
                 SaveRngState(rngFilePath);
-
-                Console.WriteLine($"Checkpoint {timestep} Done!");
             }
 
             public void LoadState(int timestep)
