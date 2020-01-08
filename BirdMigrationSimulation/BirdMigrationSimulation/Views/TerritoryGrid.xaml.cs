@@ -25,7 +25,7 @@ namespace BirdMigrationSimulation.Views
     {
         private (int Width, int Height) Dimensions { get; set; }
 
-        private List<HabitatViewModel> habitatViewModels { get; set; }
+        private Dictionary<(int x, int y), HabitatViewModel> habitatViewModels { get; set; }
         private Dictionary<HabitatViewModel, Grid> Cells { get; set; }
 
         public TerritoryGrid()
@@ -42,7 +42,7 @@ namespace BirdMigrationSimulation.Views
 
         private void genViewModels(Territory territory)
         {
-            habitatViewModels = territory.HabitatGrid.Select(h => new HabitatViewModel(h)).ToList();
+            habitatViewModels = territory.HabitatGrid.Select(h => new HabitatViewModel(h)).ToDictionary(h => h.Coordinates);
         }
 
         private void CreateGrid()
@@ -52,7 +52,7 @@ namespace BirdMigrationSimulation.Views
             {
                 for (int y=0; y < Dimensions.Height; y++)
                 {
-                    HabitatViewModel habitat = habitatViewModels.Where(h => h.Coordinates == (x, y)).FirstOrDefault();
+                    HabitatViewModel habitat = habitatViewModels[(x, y)];
                     Grid cell = new Grid();
                     cell.Background = habitat.DisplayColor;
                     Grid.Children.Add(cell);
@@ -64,7 +64,7 @@ namespace BirdMigrationSimulation.Views
         // TODO: Make this more efficient
         internal void Update()
         {
-            foreach (var habitat in Cells.Keys)
+            foreach (var habitat in Cells.Keys.ToList())
                 Cells[habitat].Background = habitat.DisplayColor;
         }
     }
