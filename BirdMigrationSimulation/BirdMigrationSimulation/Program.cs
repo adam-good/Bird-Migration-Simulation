@@ -56,12 +56,21 @@ namespace BirdMigrationSimulation
             guiThread?.Start();
             simThread.Start();
                     
-            //app.Run(new Views.SimulationWindow(simulation));
-
             simThread.Join();
             guiThread?.Join();
 
-
+            // TODO: Delete me later
+            if (configuration.ShowGUI == false)
+            {
+                Console.WriteLine("Building Graphical Representation");
+                guiThread = new Thread(() => {
+                    Application app = new Application();
+                    app.Run(new Views.SimulationWindow(simulation));
+                });
+                guiThread.SetApartmentState(ApartmentState.STA);
+                guiThread.Start();
+                guiThread.Join();
+            }
 
 
             Console.WriteLine("Press any key to EXIT...");
