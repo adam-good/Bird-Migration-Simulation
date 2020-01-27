@@ -58,6 +58,9 @@
     <Compile Include="Models\Inhabitants\Birds\MaleBird.cs" />
     <Compile Include="Models\Inhabitants\Inhabitant.cs" />
     <Compile Include="Models\Inhabitants\Population.cs" />
+    <Compile Include="Models\RNG\PoissonDistribution.cs" />
+    <Compile Include="Models\RNG\RNG.cs" />
+    <Compile Include="Models\RNG\UniformDistribution.cs" />
     <Compile Include="Models\Simulation.cs" />
     <Compile Include="Models\Area\Habitat.cs" />
     <Compile Include="Models\Area\Territory.cs" />

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using BirdMigrationSimulation.Models.Area;
 using BirdMigrationSimulation.Models.Configuration;
+using BirdMigrationSimulation.Models.RNG;
 
 namespace BirdMigrationSimulation
 {
