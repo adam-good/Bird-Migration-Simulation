@@ -28,9 +28,10 @@ namespace BirdMigrationSimulation.ViewModels
         // TODO: This could be more efficient. Do that
         private Color DetermineColor()
         {
-            if (habitat.MainInhabitant is Bird)
+            var habitant = habitat.MainInhabitant;
+            if (habitant is Bird)
             {
-                Bird bird = habitat.MainInhabitant as Bird;
+                Bird bird = habitant as Bird;
                 if (bird.AgeClass != AgeClass.Adult) // If juvenile or newborn
                     return Color.FromRgb(255, 255, 255);
                 else
@@ -41,7 +42,7 @@ namespace BirdMigrationSimulation.ViewModels
                         return Color.FromRgb(255, 0, 0);
                 }
             }
-            else if (habitat.MainInhabitant is BirdPair)
+            else if (habitant is BirdPair)
                 return Color.FromRgb(0, 255, 0);
             else
                 return Color.FromRgb(0, 0, 0);
