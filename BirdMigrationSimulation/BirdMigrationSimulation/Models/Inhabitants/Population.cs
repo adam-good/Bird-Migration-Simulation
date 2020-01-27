@@ -25,7 +25,8 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         public long birdIDCounter = 0;
 
-        public double AvgOffspring => Simulation.Configuration.AverageOffpsring;
+        public double MaxOffspring => Simulation.Configuration.MaxOffspring;
+        public double ReproductivePower => Simulation.Configuration.ReproductivePower;
 
         public List<Bird> Birds => Inhabitants.Where(i => i is Bird).Cast<Bird>().ToList();
         public List<BirdPair> Pairs => Inhabitants.Where(i => i is BirdPair).Cast<BirdPair>().ToList();
