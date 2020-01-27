@@ -47,16 +47,11 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         }
 
         /// <summary>
-        /// TODO: This needs renamed
-        /// 
-        /// This will determine how many offspring this pair will reproduce in this timestep
+        /// This will determine how many offspring this pair will reproduce in this timestep via Poisson Distribution
         /// </summary>
         /// <returns>int: Number of offspring</returns>
         internal int Reproduce()
         {
-            //int min = 0;
-            //int max = (int)Math.Round(2 * MaxOffspring);
-            //int numOffspring = Rng.Next(min, max);
             double mean = MaxOffspring * Math.Pow(this.CurrentHabitat.HabitatQualityIndex, ReproductivePower);
             int numOffspring = Rng.Poisson.DiscreteSample(mean);
             return numOffspring;
