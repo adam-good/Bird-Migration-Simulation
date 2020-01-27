@@ -9,14 +9,29 @@ namespace BirdMigrationSimulation.Models.RNG
     /// <summary>
     /// Class that contains various types of random number generators / distributions
     /// </summary>
-    class RNG : Random
+    public class RandomNumberGenerator : Random
     {
-        private Random sourceRandom = new Random();
+        public Random sourceRandom { get; private set; }
         public UniformDistribution Uniform { get; private set; }
         public PoissonDistribution Poisson { get; private set; }
 
-        public RNG()
+        public RandomNumberGenerator()
         {
+            this.sourceRandom = new Random();
+            this.Uniform = new UniformDistribution(sourceRandom);
+            this.Poisson = new PoissonDistribution(sourceRandom);
+        }
+
+        public RandomNumberGenerator(int seed)
+        {
+            this.sourceRandom = new Random(seed);
+            this.Uniform = new UniformDistribution(sourceRandom);
+            this.Poisson = new PoissonDistribution(sourceRandom);
+        }
+
+        public RandomNumberGenerator(Random random)
+        {
+            this.sourceRandom = random;
             this.Uniform = new UniformDistribution(sourceRandom);
             this.Poisson = new PoissonDistribution(sourceRandom);
         }

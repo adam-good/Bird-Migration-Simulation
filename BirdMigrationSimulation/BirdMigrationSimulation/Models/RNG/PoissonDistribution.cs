@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BirdMigrationSimulation.Models.RNG
 {
-    class PoissonDistribution
+    public class PoissonDistribution
     {
         private Random sourceRandom;
         public PoissonDistribution(Random sourceRandom)

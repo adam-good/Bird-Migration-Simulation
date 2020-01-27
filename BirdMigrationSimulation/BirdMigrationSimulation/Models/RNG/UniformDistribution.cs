@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BirdMigrationSimulation.Models.RNG
 {
-    class UniformDistribution
+    public class UniformDistribution
     {
         private Random sourceRandom;
         public UniformDistribution(Random sourceRandom)
