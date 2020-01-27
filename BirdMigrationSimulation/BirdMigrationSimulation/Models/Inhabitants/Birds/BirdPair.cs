@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BirdMigrationSimulation.Models.Area;
+using BirdMigrationSimulation.Models.RNG;
 
 namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 {
@@ -13,11 +14,12 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 
         public Simulation Simulation => Population.Simulation;
 
-        private Random Rng => Simulation.Rng;
+        private RandomNumberGenerator Rng => Simulation.Rng;
 
         public Habitat CurrentHabitat { get; set; }
 
-        private double averageOffspring => Population.AvgOffspring;
+        private double MaxOffspring => Population.MaxOffspring;
+        private double ReproductivePower => Population.ReproductivePower;
 
         public (Bird MaleBird, Bird FemaleBird) Pair { get; private set; }
 
@@ -45,16 +47,13 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         }
 
         /// <summary>
-        /// TODO: This needs renamed
-        /// 
-        /// This will determine how many offspring this pair will reproduce in this timestep
+        /// This will determine how many offspring this pair will reproduce in this timestep via Poisson Distribution
         /// </summary>
         /// <returns>int: Number of offspring</returns>
         internal int Reproduce()
         {
-            int min = 0;
-            int max = (int)Math.Round(2 * averageOffspring);
-            int numOffspring = Rng.Next(min, max);
+            double mean = MaxOffspring * Math.Pow(this.CurrentHabitat.HabitatQualityIndex, ReproductivePower);
+            int numOffspring = Rng.Poisson.DiscreteSample(mean);
             return numOffspring;
         }
     }

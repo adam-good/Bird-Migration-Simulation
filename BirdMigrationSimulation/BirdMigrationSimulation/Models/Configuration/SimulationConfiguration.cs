@@ -36,7 +36,8 @@ namespace BirdMigrationSimulation.Models.Configuration
         const string JUVENILE_FEMALE_SELECTIVITY_KEY = "juvenile_female_migration_selectivity";
         const string JUVENILE_FEMALE_LETHALITY_KEY = "juvenile_female_lethality";
 
-        const string AVG_OFFSPRING_KEY = "avg_offspring";
+        const string MAX_OFFSPRING = "max_offspring";
+        const string REPRODUCTION_POWER = "repro_power";
         const string OFFPSRING_DISTRIBUTION_KEY = "offspring_distribution";
 
         // Simulation Settings
@@ -68,7 +69,8 @@ namespace BirdMigrationSimulation.Models.Configuration
         public BirdConfiguration MaleBirdConfig => maleBirdConfig;
         public BirdConfiguration FemaleBirdConfig => femaleBirdConfig;
 
-        public double AverageOffpsring => double.Parse(keyValuePairs[AVG_OFFSPRING_KEY]);
+        public double MaxOffspring => double.Parse(keyValuePairs[MAX_OFFSPRING]);
+        public double ReproductivePower => double.Parse(keyValuePairs[REPRODUCTION_POWER]);
         public string OffspringDistribution => throw new NotImplementedException();
 
         public void LoadConfiguration(string filepath)
