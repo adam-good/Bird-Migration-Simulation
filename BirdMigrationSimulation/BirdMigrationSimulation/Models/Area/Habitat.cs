@@ -94,11 +94,12 @@ namespace BirdMigrationSimulation.Models.Area
 
         private Inhabitant UpdateMainInhabitant()
         {
-            BirdPair pair = Inhabitants.OfType<BirdPair>().FirstOrDefault();
+            List<Inhabitant> inhabitants = Inhabitants.ToList();
+            BirdPair pair = inhabitants.OfType<BirdPair>().FirstOrDefault(); // Inhabitants.OfType<BirdPair>().FirstOrDefault();
             if (pair != null)
                 return pair;
 
-            Bird bird = Inhabitants.OfType<Bird>().FirstOrDefault();
+            Bird bird = inhabitants.OfType<Bird>().FirstOrDefault(); //Inhabitants.OfType<Bird>().FirstOrDefault();
             if (bird != null)
                 return bird;
 
