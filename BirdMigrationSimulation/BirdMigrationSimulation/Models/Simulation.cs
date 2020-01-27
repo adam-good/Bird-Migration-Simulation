@@ -10,6 +10,7 @@ using BirdMigrationSimulation.Models.Configuration;
 using BirdMigrationSimulation.Models.Inhabitants;
 using BirdMigrationSimulation.Models.Inhabitants.Birds;
 using BirdMigrationSimulation.Utilities;
+using BirdMigrationSimulation.Models.RNG;
 
 namespace BirdMigrationSimulation.Models
 {
@@ -19,7 +20,7 @@ namespace BirdMigrationSimulation.Models
     public class Simulation
     {
         public SimulationConfiguration Configuration { get; private set; }
-        public Random Rng { get; private set; }
+        public RandomNumberGenerator Rng { get; private set; }
         public Territory Territory { get; set; }
         public Population Population { get; set; }
 
@@ -33,7 +34,7 @@ namespace BirdMigrationSimulation.Models
         public Simulation(SimulationConfiguration configuration, string dataPath)
         {
             this.Configuration = configuration;
-            Rng = new Random(this.Configuration.RandomSeed);
+            Rng = new RandomNumberGenerator(this.Configuration.RandomSeed);
             StateManager = new SimulationStateManager(dataPath, this);
             this.Territory = new Territory(this, configuration.TerritorySize.Width, configuration.TerritorySize.Height);
             this.Population = new Population(this, configuration.InitialPopulationSize);
@@ -102,7 +103,7 @@ namespace BirdMigrationSimulation.Models
             public Simulation Simulation { get; private set; }
             private Territory Territory => Simulation.Territory;
             private Population Population => Simulation.Population;
-            private Random Random => Simulation.Rng;
+            private Random Random => Simulation.Rng.sourceRandom;
 
             public SimulationStateManager(string rootDir, Simulation simulation)
             {
@@ -240,7 +241,7 @@ namespace BirdMigrationSimulation.Models
                 }
 
                 Random random = state.Restore();
-                this.Simulation.Rng = random;
+                this.Simulation.Rng = new RandomNumberGenerator(random);
             }
         }
     }
