@@ -32,12 +32,11 @@ namespace BirdMigrationSimulation
                 Directory.CreateDirectory(outputpath);
             Console.WriteLine($"Output Path: {outputpath}");
 
-
-
             Console.WriteLine("Press ENTER key to START");
             Console.ReadKey();
 
             Models.Simulation simulation = new Models.Simulation(configuration, outputpath);
+            simulation.Territory.SaveImage(outputpath);
 
             Thread simThread = new Thread(() =>
             {
