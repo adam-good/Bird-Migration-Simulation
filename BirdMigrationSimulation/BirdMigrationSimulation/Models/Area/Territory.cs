@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing.Imaging;
 
 namespace BirdMigrationSimulation.Models.Area
 {
@@ -120,6 +122,28 @@ namespace BirdMigrationSimulation.Models.Area
         public Habitat GetHabitat(int x, int y)
         {
             return HabitatGrid.Where(h => h.Coordinates.x == x && h.Coordinates.y == y).First();
+        }
+
+        /// <summary>
+        /// Saves a PNG image representation of the territory.
+        /// TODO: Probably shouldn't be here but this will work for now.
+        /// </summary>
+        /// <param name="path">Path to where to save png</param>
+        public void SaveImage(string path)
+        {
+            Bitmap bmp = new System.Drawing.Bitmap(Dimensions.width, Dimensions.height);
+            Graphics graphics = Graphics.FromImage(bmp);
+
+            foreach (var habitat in HabitatGrid)
+            {
+                (int x, int y) = habitat.Coordinates;
+                double hqi = habitat.HabitatQualityIndex;
+                int color = (int)(hqi * 255);
+                Brush brush = new SolidBrush(Color.FromArgb(color, color, color));
+                graphics.FillRectangle(brush, x, y, 1, 1);
+            }
+
+            bmp.Save($"{path}/Territory.png", ImageFormat.Png);
         }
     }
 }
