@@ -25,6 +25,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants
 
         public long birdIDCounter = 0;
 
+        public double MaxSurvival => Simulation.Configuration.MaxSurvival;
         public double MaxOffspring => Simulation.Configuration.MaxOffspring;
         public double ReproductivePower => Simulation.Configuration.ReproductivePower;
 

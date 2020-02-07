@@ -39,6 +39,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
         public long birdId { get; private set; }
         public Habitat CurrentHabitat { get; set; }
         public double HabitatLethality => (AgeClass == AgeClass.Adult) ? Configuration.AdultLethality : Configuration.JuvenileLethality;
+        public double MaxSurvival => Population.MaxSurvival;
         public abstract Sex Sex { get; }
         public int Age { get; internal set; } = 0;
         public AgeClass AgeClass => DetermineAgeClass(this.Age);
@@ -54,7 +55,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 
         public void HandleDeath()
         {
-            var hqiThreshold = 1 - Math.Pow(0.95 * CurrentHabitat.HabitatQualityIndex, HabitatLethality);
+            var hqiThreshold = 1 - Math.Pow(MaxSurvival * CurrentHabitat.HabitatQualityIndex, HabitatLethality);
             if (Rng.NextDouble() < hqiThreshold)
                 this.IsLive = false;
 
