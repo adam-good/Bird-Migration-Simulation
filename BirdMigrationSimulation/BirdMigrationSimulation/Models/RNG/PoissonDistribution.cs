@@ -9,9 +9,9 @@ namespace BirdMigrationSimulation.Models.RNG
     public class PoissonDistribution
     {
         private Random sourceRandom;
-        public PoissonDistribution(Random sourceRandom)
+        public PoissonDistribution(Random source)
         {
-            this.sourceRandom = sourceRandom;
+            this.sourceRandom = source;
         }
 
         /// <summary>
