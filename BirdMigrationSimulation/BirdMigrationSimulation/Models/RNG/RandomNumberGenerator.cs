@@ -12,28 +12,52 @@ namespace BirdMigrationSimulation.Models.RNG
     public class RandomNumberGenerator : Random
     {
         public Random sourceRandom { get; private set; }
+
+        /// <summary>
+        /// An Implementation of Constant Distribution
+        /// </summary>
+        public ConstantDistribution Constant { get; private set; }
+
+        /// <summary>
+        /// An Implementation of the Uniform Distribution
+        /// </summary>
         public UniformDistribution Uniform { get; private set; }
+
+        /// <summary>
+        /// An Implementation of the Normal Distribution
+        /// </summary>
+        public NormalDistribution Normal { get; private set; }
+
+        /// <summary>
+        /// An Implementation of the Poisson Distribution
+        /// </summary>
         public PoissonDistribution Poisson { get; private set; }
 
         public RandomNumberGenerator()
         {
             this.sourceRandom = new Random();
-            this.Uniform = new UniformDistribution(sourceRandom);
-            this.Poisson = new PoissonDistribution(sourceRandom);
+            PopulateGenerators();
         }
 
         public RandomNumberGenerator(int seed)
         {
             this.sourceRandom = new Random(seed);
-            this.Uniform = new UniformDistribution(sourceRandom);
-            this.Poisson = new PoissonDistribution(sourceRandom);
+            PopulateGenerators();
         }
 
         public RandomNumberGenerator(Random random)
         {
             this.sourceRandom = random;
-            this.Uniform = new UniformDistribution(sourceRandom);
-            this.Poisson = new PoissonDistribution(sourceRandom);
+            PopulateGenerators();
+            
+        }
+
+        private void PopulateGenerators()
+        {
+            this.Uniform = new UniformDistribution(this.sourceRandom);
+            this.Poisson = new PoissonDistribution(this.sourceRandom);
+            this.Normal = new NormalDistribution(this.sourceRandom);
+            this.Constant = new ConstantDistribution(this.sourceRandom);
         }
 
         public override double NextDouble()

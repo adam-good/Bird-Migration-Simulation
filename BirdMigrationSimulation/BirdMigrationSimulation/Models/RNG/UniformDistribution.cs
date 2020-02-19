@@ -9,9 +9,9 @@ namespace BirdMigrationSimulation.Models.RNG
     public class UniformDistribution
     {
         private Random sourceRandom;
-        public UniformDistribution(Random sourceRandom)
+        public UniformDistribution(Random source)
         {
-            this.sourceRandom = sourceRandom;
+            this.sourceRandom = source;
         }
 
         public double ContinuousSample(double a, double b)
