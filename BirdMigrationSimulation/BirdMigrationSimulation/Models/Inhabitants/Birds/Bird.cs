@@ -55,7 +55,7 @@ namespace BirdMigrationSimulation.Models.Inhabitants.Birds
 
         public void HandleDeath()
         {
-            var hqiThreshold = 1 - MaxSurvival * Math.PowCurrentHabitat.HabitatQualityIndex, HabitatLethality);
+            var hqiThreshold = 1 - MaxSurvival * Math.Pow(CurrentHabitat.HabitatQualityIndex, HabitatLethality);
             if (Rng.NextDouble() < hqiThreshold)
                 this.IsLive = false;
 
